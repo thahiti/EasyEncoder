@@ -25,7 +25,7 @@ import android.opengl.GLSurfaceView;
  */
 public class MyGLSurfaceView extends GLSurfaceView {
 
-    private final SimpleTexture2DRenderer mRenderer;
+    private final RGBRender mRenderer;
 
     public MyGLSurfaceView(Context context) { 
         super(context);
@@ -35,11 +35,11 @@ public class MyGLSurfaceView extends GLSurfaceView {
 
         // Set the Renderer for drawing on the GLSurfaceView
 //        mRenderer = new MyGLRenderer(context);
-        mRenderer = new SimpleTexture2DRenderer(context,320,240);
+        mRenderer = new RGBRender(context,320,240);
         setRenderer(mRenderer);
 
         // Render the view only when there is a change in the drawing data
-        setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
+        setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY);
     }
 
 }

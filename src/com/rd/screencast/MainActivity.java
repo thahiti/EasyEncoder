@@ -129,7 +129,7 @@ public class MainActivity extends Activity {
 			public void writeFrame(byte[] data){
 				try{
 					outputStream.write(data);
-				}catch( Exception e){
+				}catch( Exception e){ 
 					e.printStackTrace();
 				}
 			}
@@ -143,7 +143,6 @@ public class MainActivity extends Activity {
 				writeFrame(pps);
 			}
 		});
-
 		
 		while(true){
 			try {
@@ -156,7 +155,6 @@ public class MainActivity extends Activity {
 				break;
 			}
 		}
-
 
 		try {
 			outputStream.close();
