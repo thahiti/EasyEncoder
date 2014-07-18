@@ -94,7 +94,8 @@ public class RGBRender implements GLSurfaceView.Renderer
 		GLES20.glTexImage2D ( GLES20.GL_TEXTURE_2D, 0, GLES20.GL_RGBA, mTextureWidth, mTextureHeight, 0, GLES20.GL_RGBA, GLES20.GL_UNSIGNED_BYTE, pixelBuffer );
 		GLES20.glTexParameteri ( GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_NEAREST );
 		GLES20.glTexParameteri ( GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_NEAREST );
-
+		
+		Log.i(TAG,"Texture ID: "+textureId[0]);
 		return textureId[0];        
 	}
 
@@ -111,25 +112,25 @@ public class RGBRender implements GLSurfaceView.Renderer
 
 		//Vertex Shader.
 		String vShaderStr =
-				"attribute vec4 a_position;   \n"
-						+ "uniform mat4 u_MVPMatrix;    \n"
-						+ "attribute vec2 a_texCoord;   \n"
-						+ "varying vec2 v_texCoord;     \n"
-						+ "void main()                  \n"
-						+ "{                            \n"
-						+ "   gl_Position = u_MVPMatrix * a_position; \n"
-						+ "   v_texCoord = a_texCoord;  \n"
-						+ "}                            \n";
+						  "attribute vec4 a_position;   				\n"
+						+ "uniform mat4 u_MVPMatrix;    				\n"
+						+ "attribute vec2 a_texCoord;   				\n"
+						+ "varying vec2 v_texCoord;     				\n"
+						+ "void main()                 					\n"
+						+ "{                            				\n"
+						+ "   gl_Position = u_MVPMatrix * a_position; 	\n"
+						+ "   v_texCoord = a_texCoord;  				\n"
+						+ "}                            				\n";
+
 		//Fragment Shader
 		String fShaderStr = 
-				"precision mediump float;                            \n"
-						+ "varying vec2 v_texCoord;                            \n"
-						+ "uniform sampler2D s_texture;                        \n"
-						+ "uniform vec4 vColor;								   \n"
-						+ "void main()                                         \n"
-						+ "{                                                   \n"
-						+ "  gl_FragColor = texture2D( s_texture, v_texCoord );\n"
-						+ "}                                                   \n";
+						  "precision mediump float;                            	\n"
+						+ "varying vec2 v_texCoord;                            	\n"
+						+ "uniform sampler2D s_texture;                        	\n"
+						+ "void main()                                         	\n"
+						+ "{                                                   	\n"
+						+ "  gl_FragColor = texture2D( s_texture, v_texCoord );	\n"
+						+ "}                                                   	\n";
 
 		
 		int vertexShader = loadShader(GLES20.GL_VERTEX_SHADER, vShaderStr);
@@ -230,16 +231,15 @@ public class RGBRender implements GLSurfaceView.Renderer
 		GLES20.glEnableVertexAttribArray ( mTexCoordLoc );
  
 		// Bind the texture
-		GLES20.glActiveTexture ( GLES20.GL_TEXTURE0 );
-		GLES20.glBindTexture ( GLES20.GL_TEXTURE_2D, mTextureId );
-
+//		GLES20.glActiveTexture ( GLES20.GL_TEXTURE0 );
+//		GLES20.glBindTexture ( GLES20.GL_TEXTURE_2D, mTextureId );
 		// Set the sampler texture unit to 0
 		GLES20.glUniform1i ( mSamplerLoc, 0 );
+		
         GLES20.glUniformMatrix4fv(mMVPMatrixHandle, 1, false, mMVPMatrix, 0);
-
 		GLES20.glDrawElements ( GLES20.GL_TRIANGLES, 6, GLES20.GL_UNSIGNED_SHORT, mIndices );
 	}
-	
+	 
 	public void onSurfaceChanged(GL10 glUnused, int width, int height)
 	{
 		mSurfaceWidth = width;
@@ -253,7 +253,7 @@ public class RGBRender implements GLSurfaceView.Renderer
 		}
 	}
 
-	public int updateTexture(byte[] rgbFrame){
+	public void updateTexture(byte[] rgbFrame){
 		pixelBuffer.clear();
 		for(int i=0; i<mSourceHeight; ++i){
 			pixelBuffer.put(rgbFrame, i*mSourceWidth*4, mSourceWidth*4);
@@ -261,7 +261,6 @@ public class RGBRender implements GLSurfaceView.Renderer
 		}
 	    pixelBuffer.position(0);  
 		GLES20.glTexImage2D ( GLES20.GL_TEXTURE_2D, 0, GLES20.GL_RGBA, mTextureWidth, mTextureHeight, 0, GLES20.GL_RGBA, GLES20.GL_UNSIGNED_BYTE, pixelBuffer );
-		return mTextureId;
 	}
 	
 	private int decideTextureSize(){

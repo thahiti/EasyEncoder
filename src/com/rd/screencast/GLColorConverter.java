@@ -87,12 +87,12 @@ public class GLColorConverter{
 		GLES20.glTexImage2D ( GLES20.GL_TEXTURE_2D, 0, GLES20.GL_RGBA, mTextureWidth, mTextureHeight, 0, GLES20.GL_RGBA, GLES20.GL_UNSIGNED_BYTE, pixelBuffer );
 		GLES20.glTexParameteri ( GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_NEAREST );
 		GLES20.glTexParameteri ( GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_NEAREST );
-
+		Log.i(TAG,"Texture ID: "+textureId[0]);
 		return textureId[0];        
 	}
 
 	public static int loadShader(int type, String shaderCode){
-		int shader = GLES20.glCreateShader(type);
+		int shader = GLES20.glCreateShader(type); 
 		GLES20.glShaderSource(shader, shaderCode);
 		GLES20.glCompileShader(shader);
 		return shader;
@@ -118,7 +118,6 @@ public class GLColorConverter{
 				"precision mediump float;                            \n"
 						+ "varying vec2 v_texCoord;                            \n"
 						+ "uniform sampler2D s_texture;                        \n"
-						+ "uniform vec4 vColor;								   \n"
 						+ "void main()                                         \n"
 						+ "{                                                   \n"
 						+ "  gl_FragColor = texture2D( s_texture, v_texCoord );\n"
