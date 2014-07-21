@@ -147,7 +147,7 @@ public class MainActivity extends Activity {
 		while(true){
 			try {
 				len = inputStream.read(buf);
-				((MyGLSurfaceView)mGLView).updatePicture(buf);
+//				((MyGLSurfaceView)mGLView).updatePicture(buf);
 				
 				runOnUiThread(new Runnable(){
 					public void run() {

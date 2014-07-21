@@ -181,7 +181,6 @@ public class GLColorConverter{
 	{
 		eglController.makeCurrent();
 		eglController.setPresentationTime(timestamp);
-		
 		updateTexture(input);  
 
 		GLES20.glUseProgram(mProgramObject);
@@ -203,9 +202,7 @@ public class GLColorConverter{
 		// Set the sampler texture unit to 0
 		GLES20.glUniform1i ( mSamplerLoc, 0 );
         GLES20.glUniformMatrix4fv(mMVPMatrixHandle, 1, false, mMVPMatrix, 0);
-
 		GLES20.glDrawElements ( GLES20.GL_TRIANGLES, 6, GLES20.GL_UNSIGNED_SHORT, mIndices );
-		
 		eglController.swapBuffers();
 	}
 
@@ -217,15 +214,12 @@ public class GLColorConverter{
 			throw new RuntimeException(glOperation + ": glError " + error);
 		}
 	}
-
+	
 	public int updateTexture(byte[] rgbFrame){
 		pixelBuffer.clear();
-		for(int i=0; i<mHeight; ++i){
-			pixelBuffer.put(rgbFrame, i*mWidth*4, mWidth*4);
-			pixelBuffer.position(i*mTextureWidth*4);
-		}
-	    pixelBuffer.position(0);  
-		GLES20.glTexImage2D ( GLES20.GL_TEXTURE_2D, 0, GLES20.GL_RGBA, mTextureWidth, mTextureHeight, 0, GLES20.GL_RGBA, GLES20.GL_UNSIGNED_BYTE, pixelBuffer );
+		pixelBuffer = ByteBuffer.wrap(rgbFrame);
+	    pixelBuffer.position(0);
+		GLES20.glTexSubImage2D(GLES20.GL_TEXTURE_2D, 0, 0, 0, mWidth, mHeight, GLES20.GL_RGBA, GLES20.GL_UNSIGNED_BYTE, pixelBuffer);
 		return mTextureId;
 	}
 	
