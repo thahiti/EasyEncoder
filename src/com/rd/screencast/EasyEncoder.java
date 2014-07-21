@@ -25,6 +25,10 @@ public class EasyEncoder {
 	boolean glInited=false;
 	private GLColorConverter mColorConverter;
 	
+	private static boolean isIFrame(int hdr) {
+		return 0x05 == (hdr & 0x1F);
+	}
+	
 	long mFrameCount;
 	
 	public EasyEncoder(int width, int height, int framerate, int keyFrameInterval) {
@@ -84,6 +88,10 @@ public class EasyEncoder {
 				//frameBuffer.putInt(bufferInfo.size - 4);
 
 				if(null != mFrameListener){
+					if(isIFrame(outData[4])){
+						mFrameListener.frameReceived(mSps, 0);
+						mFrameListener.frameReceived(mPps, 0);
+					}
 					mFrameListener.frameReceived(outData, outData.length);
 				}
 			} else {

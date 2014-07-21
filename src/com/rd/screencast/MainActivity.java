@@ -26,8 +26,8 @@ public class MainActivity extends Activity {
 	private final String TAG = "Encoding tester";
 	private GLSurfaceView mGLView;
 
-	private int width = 320;
-	private int height = 240;
+	private int width = 1280;
+	private int height = 720;
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -117,7 +117,7 @@ public class MainActivity extends Activity {
 		if(null == outputStream){
 			try {
 				outputStream = new FileOutputStream(new File("/mnt/sdcard/dump.h264"));
-				inputStream = new DataInputStream(new FileInputStream("/mnt/sdcard/dump.rgb"));
+				inputStream = new DataInputStream(new FileInputStream("/mnt/sdcard/Maroon.rgb"));
 
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
@@ -139,14 +139,22 @@ public class MainActivity extends Activity {
 			}
 
 			public void avcParametersSetsEstablished(byte[] sps, byte[] pps) {
-				writeFrame(sps);
-				writeFrame(pps);
 			}
 		});
+		
+		((MyGLSurfaceView)mGLView).setSourceSize(width, height);
 		
 		while(true){
 			try {
 				len = inputStream.read(buf);
+				((MyGLSurfaceView)mGLView).updatePicture(buf);
+				
+				runOnUiThread(new Runnable(){
+					public void run() {
+						mGLView.requestRender();
+					}
+				});
+				
 			}catch(Exception e){}
 			
 			if(len > 0){
@@ -155,7 +163,7 @@ public class MainActivity extends Activity {
 				break;
 			}
 		}
-
+ 
 		try {
 			outputStream.close();
 			inputStream.close();

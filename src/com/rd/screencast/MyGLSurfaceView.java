@@ -32,14 +32,22 @@ public class MyGLSurfaceView extends GLSurfaceView {
 
         // Create an OpenGL ES 2.0 context.
         setEGLContextClientVersion(2);
-
+ 
         // Set the Renderer for drawing on the GLSurfaceView
 //        mRenderer = new MyGLRenderer(context);
-        mRenderer = new RGBRender(context,320,240);
+        mRenderer = new RGBRender(context);
         setRenderer(mRenderer);
 
-        // Render the view only when there is a change in the drawing data
+        // Render the view only when there is a change in the drawing data 
         setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY);
     }
+    
+	public void setSourceSize(int w, int h){
+		mRenderer.setSourceSize(w, h);
+	}
+	
+	public void updatePicture(byte[] RGBPicture){
+		mRenderer.updatePicture(RGBPicture);
+	}
 
 }

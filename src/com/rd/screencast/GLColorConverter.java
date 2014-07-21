@@ -117,7 +117,7 @@ public class GLColorConverter{
 		String fShaderStr = 
 				"precision mediump float;                            \n"
 						+ "varying vec2 v_texCoord;                            \n"
-						+ "uniform sampler2D s_texture;                        \n"
+						+ "uniform sampler2D s_texture;                        \n"						
 						+ "void main()                                         \n"
 						+ "{                                                   \n"
 						+ "  gl_FragColor = texture2D( s_texture, v_texCoord );\n"
@@ -167,9 +167,9 @@ public class GLColorConverter{
 		float right = -((float)mTextureWidth/2-mWidth)/((float)mTextureWidth/2);
 		float bottom = ((float)mTextureHeight/2-mHeight)/((float)mTextureHeight/2);
 		float top = 1f;
-		float near = 3f;
-		float far = 7f;		
-		Matrix.frustumM(mProjectionMatrix, 0, left, right, bottom, top, near, far);
+		float near = 1f;
+		float far = 10f;		
+		Matrix.orthoM(mProjectionMatrix, 0, left, right, bottom, top, near, far);
         
 		//Prepare Model x View x Projection transform matrix.
 		Matrix.multiplyMM(mMVPMatrix, 0, mViewMatrix, 0, mModelMatrix, 0);
@@ -182,7 +182,7 @@ public class GLColorConverter{
 		eglController.makeCurrent();
 		eglController.setPresentationTime(timestamp);
 		
-		updateTexture(input); 
+		updateTexture(input);  
 
 		GLES20.glUseProgram(mProgramObject);
 		GLES20.glViewport(0, 0, mWidth, mHeight);
