@@ -24,7 +24,6 @@ public class EasyEncoder {
 	
 	boolean glInited=false;
 	private GLColorConverter mColorConverter;
-	
 	private static boolean isIFrame(int hdr) {
 		return 0x05 == (hdr & 0x1F);
 	}

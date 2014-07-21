@@ -148,16 +148,16 @@ public class MainActivity extends Activity {
 			try {
 				len = inputStream.read(buf);
 //				((MyGLSurfaceView)mGLView).updatePicture(buf);
-				
-				runOnUiThread(new Runnable(){
-					public void run() {
-						mGLView.requestRender();
-					}
-				});
+//				runOnUiThread(new Runnable(){
+//					public void run() {
+//						mGLView.requestRender();
+//					}
+//				});
 				
 			}catch(Exception e){}
 			
 			if(len > 0){
+				
 				easyEncoder.offerEncoder(buf);
 			}else{
 				break;

@@ -36,6 +36,7 @@ public class GLColorConverter{
 	private FloatBuffer mVertices;
 	private ShortBuffer mIndices;
 
+	private StopWatch stopWatch;
 	private final float[] mVerticesData ={ 
 			-1f, 1f, 0.0f, // Position 0
 			0.0f, 0.0f, // TexCoord 0
@@ -50,6 +51,7 @@ public class GLColorConverter{
 	private final short[] mIndicesData ={ 0, 1, 2, 0, 2, 3 };
 	
 	public GLColorConverter(Surface surface, int width, int height) {
+		stopWatch=new StopWatch();
 		if (surface == null) {
 			throw new NullPointerException();
 		}
@@ -179,14 +181,19 @@ public class GLColorConverter{
 
 	public void drawFrame(byte [] input, long timestamp)
 	{
+		stopWatch.start();
 		eglController.makeCurrent();
 		eglController.setPresentationTime(timestamp);
+		stopWatch.stop("makeCurrent");
+		
+		stopWatch.start();
 		updateTexture(input);  
-
+		stopWatch.stop("updateTexture");
+		
+		stopWatch.start();
 		GLES20.glUseProgram(mProgramObject);
 		GLES20.glViewport(0, 0, mWidth, mHeight);
-		GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);
-
+		
 		mVertices.position(0);
 		GLES20.glVertexAttribPointer ( mPositionLoc, 3, GLES20.GL_FLOAT, false, 5 * 4, mVertices );
 		mVertices.position(3);
@@ -194,16 +201,21 @@ public class GLColorConverter{
 
 		GLES20.glEnableVertexAttribArray ( mPositionLoc );
 		GLES20.glEnableVertexAttribArray ( mTexCoordLoc );
- 
+		stopWatch.stop("set GLES");
+		
+		stopWatch.start();
 		// Bind the texture
 		GLES20.glActiveTexture ( GLES20.GL_TEXTURE0 );
 		GLES20.glBindTexture ( GLES20.GL_TEXTURE_2D, mTextureId );
-
+		stopWatch.stop("Activate & Bind texture");
+		
+		stopWatch.start();
 		// Set the sampler texture unit to 0
 		GLES20.glUniform1i ( mSamplerLoc, 0 );
         GLES20.glUniformMatrix4fv(mMVPMatrixHandle, 1, false, mMVPMatrix, 0);
 		GLES20.glDrawElements ( GLES20.GL_TRIANGLES, 6, GLES20.GL_UNSIGNED_SHORT, mIndices );
 		eglController.swapBuffers();
+		stopWatch.stop("draw & swap");
 	}
 
 
@@ -215,12 +227,11 @@ public class GLColorConverter{
 		}
 	}
 	
-	public int updateTexture(byte[] rgbFrame){
+	public void updateTexture(byte[] rgbFrame){
 		pixelBuffer.clear();
 		pixelBuffer = ByteBuffer.wrap(rgbFrame);
 	    pixelBuffer.position(0);
 		GLES20.glTexSubImage2D(GLES20.GL_TEXTURE_2D, 0, 0, 0, mWidth, mHeight, GLES20.GL_RGBA, GLES20.GL_UNSIGNED_BYTE, pixelBuffer);
-		return mTextureId;
 	}
 	
 	private int decideTextureSize(){
