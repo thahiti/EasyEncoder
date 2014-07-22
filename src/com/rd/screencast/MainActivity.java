@@ -120,50 +120,54 @@ public class MainActivity extends Activity {
 				inputStream = new DataInputStream(new FileInputStream("/mnt/sdcard/Maroon.rgb"));
 
 			} catch (FileNotFoundException e) {
-				e.printStackTrace();
+				e.printStackTrace(); 
 			}
 		}
 
 //		EasyRGBEncoder easyEncoder = new EasyRGBEncoder(width,height,60,2);
-//		easyEncoder.setEncodedFrameListener(new EasyRGBEncoder.EncodedFrameListener() {
+//		easyEncoder.setEncodedFrameListener(new EasyRGBEncoder.EncodedFrameListener() { 
 //			public void writeFrame(byte[] data){
-//				try{
+//				try{  
 //					outputStream.write(data);
-//				}catch( Exception e){ 
+//				}catch( Exception e){  
 //					e.printStackTrace();
-//				}
+//				} 
 //			}
 //			
 //			public void frameReceived(byte[] data, long timestamp) {
-//				writeFrame(data);
+//				writeFrame(data); 
 //			}
 //
 //			public void avcParametersSetsEstablished(byte[] sps, byte[] pps) {
 //			}
 //		});
 		
+		RGB2YUVColorConverter converter = new RGB2YUVColorConverter(width,  height);
+		
+		
 		EasyYUVEncoder easyEncoder = new EasyYUVEncoder(width,height,60,2);
 		easyEncoder.setEncodedFrameListener(new EasyYUVEncoder.EncodedFrameListener() {
 			public void writeFrame(byte[] data){
 				try{
-					outputStream.write(data);
-				}catch( Exception e){ 
+					outputStream.write(data);  
+				}catch( Exception e){  
 					e.printStackTrace();
 				}
 			}
 			
 			public void frameReceived(byte[] data, long timestamp) {
-				writeFrame(data);
+				writeFrame(data);  
 			}
 
 			public void avcParametersSetsEstablished(byte[] sps, byte[] pps) {
-			}
+			}  
 		});
 		
 		((MyGLSurfaceView)mGLView).setSourceSize(width, height);
-		
+		StopWatch stopWatch = new StopWatch();
 		while(true){
 			try {
+				
 				len = inputStream.read(buf);
 //				((MyGLSurfaceView)mGLView).updatePicture(buf);
 //				runOnUiThread(new Runnable(){
@@ -172,11 +176,13 @@ public class MainActivity extends Activity {
 //					}
 //				});
 				
-			}catch(Exception e){}
+			}catch(Exception e){}  
 			
 			if(len > 0){
-				
-				easyEncoder.offerEncoder(buf);
+				stopWatch.start();
+				byte[] yuv = converter.Convert(buf);
+				stopWatch.stop("color converted");
+				easyEncoder.offerEncoder(yuv);
 			}else{
 				break;
 			}

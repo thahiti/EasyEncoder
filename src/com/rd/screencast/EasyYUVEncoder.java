@@ -39,7 +39,7 @@ public class EasyYUVEncoder {
 		open();
 	}
 	
-	interface EncodedFrameListener {
+	public interface EncodedFrameListener {
 		public void frameReceived(byte[] data, long timestamp);
 		public void avcParametersSetsEstablished(byte[] sps, byte[] pps);
 	}
@@ -58,7 +58,7 @@ public class EasyYUVEncoder {
 	public void offerEncoder(byte[] input) {
 		mInputBuffers = mMediaCodec.getInputBuffers();
 		int inputBufferIndex = mMediaCodec.dequeueInputBuffer(-1);
-		
+		 
 		if (inputBufferIndex >= 0) {
 			ByteBuffer inputBuffer = mInputBuffers[inputBufferIndex];
 //			Log.i(TAG, "buffer index: "+inputBufferIndex+" size: "+inputBuffer.capacity()+ " input size: "+input.length);
@@ -174,10 +174,10 @@ public class EasyYUVEncoder {
 		Log.i(TAG, "ecoded data: "+s+" size: "+ data.length);
 	}
 
-	private long computePresentationTimeNsec(long frameIndex) {
-		final long ONE_BILLION = 1000000000;
-		return frameIndex * ONE_BILLION / mFramerate;
-	}
+//	private long computePresentationTimeNsec(long frameIndex) {
+//		final long ONE_BILLION = 1000000000;
+//		return frameIndex * ONE_BILLION / mFramerate;
+//	}
 	
     private static MediaCodecInfo selectCodec(String mimeType) {
         int numCodecs = MediaCodecList.getCodecCount();

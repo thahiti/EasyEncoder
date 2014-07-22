@@ -39,7 +39,7 @@ public class EasyRGBEncoder {
 		open();
 	}
 	
-	interface EncodedFrameListener {
+	public interface EncodedFrameListener {
 		public void frameReceived(byte[] data, long timestamp);
 		public void avcParametersSetsEstablished(byte[] sps, byte[] pps);
 	}

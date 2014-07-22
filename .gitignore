@@ -34,3 +34,12 @@ proguard/
 # vim tempo files
 *.swp
 *.swo
+obj/local/armeabi/libavutil-52.so
+obj/local/armeabi/libfcolorconverter.so
+obj/local/armeabi/libstdc++.a
+obj/local/armeabi/libswscale-2.so
+obj/local/armeabi/objs/fcolorconverter/FScaler.o
+obj/local/armeabi/objs/fcolorconverter/FScaler.o.d
+obj/local/armeabi/objs/fcolorconverter/NativeColorConverter.o
+obj/local/armeabi/objs/fcolorconverter/NativeColorConverter.o.d
+libs/armeabi/libfcolorconverter.so
