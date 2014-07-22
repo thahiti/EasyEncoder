@@ -8,8 +8,8 @@ import android.media.MediaFormat;
 import android.util.Log;
 import android.view.Surface;
 
-public class EasyEncoder {
-	final static String TAG = "EasyEncoder";
+public class EasyRGBEncoder {
+	final static String TAG = "EasyRGBEncoder";
 
 	private MediaCodec mMediaCodec;
 	
@@ -30,7 +30,7 @@ public class EasyEncoder {
 	
 	long mFrameCount;
 	
-	public EasyEncoder(int width, int height, int framerate, int keyFrameInterval) {
+	public EasyRGBEncoder(int width, int height, int framerate, int keyFrameInterval) {
 		mWidth = width;
 		mHeight = height;
 		mFramerate = framerate;

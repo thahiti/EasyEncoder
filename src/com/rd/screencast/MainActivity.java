@@ -124,8 +124,26 @@ public class MainActivity extends Activity {
 			}
 		}
 
-		EasyEncoder easyEncoder = new EasyEncoder(width,height,60,2);
-		easyEncoder.setEncodedFrameListener(new EasyEncoder.EncodedFrameListener() {
+//		EasyRGBEncoder easyEncoder = new EasyRGBEncoder(width,height,60,2);
+//		easyEncoder.setEncodedFrameListener(new EasyRGBEncoder.EncodedFrameListener() {
+//			public void writeFrame(byte[] data){
+//				try{
+//					outputStream.write(data);
+//				}catch( Exception e){ 
+//					e.printStackTrace();
+//				}
+//			}
+//			
+//			public void frameReceived(byte[] data, long timestamp) {
+//				writeFrame(data);
+//			}
+//
+//			public void avcParametersSetsEstablished(byte[] sps, byte[] pps) {
+//			}
+//		});
+		
+		EasyYUVEncoder easyEncoder = new EasyYUVEncoder(width,height,60,2);
+		easyEncoder.setEncodedFrameListener(new EasyYUVEncoder.EncodedFrameListener() {
 			public void writeFrame(byte[] data){
 				try{
 					outputStream.write(data);
