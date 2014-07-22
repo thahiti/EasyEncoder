@@ -43,3 +43,9 @@ obj/local/armeabi/objs/fcolorconverter/FScaler.o.d
 obj/local/armeabi/objs/fcolorconverter/NativeColorConverter.o
 obj/local/armeabi/objs/fcolorconverter/NativeColorConverter.o.d
 libs/armeabi/libfcolorconverter.so
+obj/local/armeabi/libavcodec-55.so
+obj/local/armeabi/libavfilter-4.so
+obj/local/armeabi/libavformat-55.so
+obj/local/armeabi/libpostproc-52.so
+obj/local/armeabi/libswresample-0.so
+obj/local/armeabi/libx264.so
