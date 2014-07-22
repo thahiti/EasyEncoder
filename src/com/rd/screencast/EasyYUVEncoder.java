@@ -116,6 +116,7 @@ public class EasyYUVEncoder {
 	private void open(){
 		MediaCodecInfo codecInfo = selectCodec("video/avc");
 		int colorFormat = selectColorFormat(codecInfo, "video/avc");
+//		int colorFormat = MediaCodecInfo.CodecCapabilities.COLOR_FormatYUV420SemiPlanar;
 
 		mBitrate = mWidth*mHeight*2*mFramerate*8/150;
 		mMediaCodec = MediaCodec.createEncoderByType("video/avc");

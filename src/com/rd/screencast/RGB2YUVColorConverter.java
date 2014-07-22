@@ -13,7 +13,7 @@ public class RGB2YUVColorConverter {
 	}
 	
 	public void release(){
-		nativeDeinit();
+		nativeDeinit();  
 	}
 	
 	public byte [] Convert(byte [] rgb){

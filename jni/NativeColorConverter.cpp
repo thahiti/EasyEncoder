@@ -35,7 +35,9 @@ JNIEXPORT jint JNICALL Java_com_rd_screencast_RGB2YUVColorConverter_nativeConver
     jbyte * nativeYUV = (env)->GetByteArrayElements(yuv,0);  
     unsigned char *buf;
 
+    LOGD("start convert");
     fscaler->rgb2yuv((unsigned char*)nativeRGB, &buf);
+    LOGD("convert done");
 
     memcpy(nativeYUV, buf, dst_size);
     fwrite(nativeYUV, 1, dst_size, dumpfile);

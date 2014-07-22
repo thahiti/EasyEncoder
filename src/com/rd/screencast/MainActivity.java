@@ -147,7 +147,7 @@ public class MainActivity extends Activity {
 		
 		EasyYUVEncoder easyEncoder = new EasyYUVEncoder(width,height,60,2);
 		easyEncoder.setEncodedFrameListener(new EasyYUVEncoder.EncodedFrameListener() {
-			public void writeFrame(byte[] data){
+			public void writeFrame(byte[] data){ 
 				try{
 					outputStream.write(data);  
 				}catch( Exception e){  
@@ -157,7 +157,7 @@ public class MainActivity extends Activity {
 			
 			public void frameReceived(byte[] data, long timestamp) {
 				writeFrame(data);  
-			}
+			}  
 
 			public void avcParametersSetsEstablished(byte[] sps, byte[] pps) {
 			}  
@@ -165,7 +165,7 @@ public class MainActivity extends Activity {
 		
 		((MyGLSurfaceView)mGLView).setSourceSize(width, height);
 		StopWatch stopWatch = new StopWatch();
-		while(true){
+		while(true){ 
 			try {
 				
 				len = inputStream.read(buf);
@@ -179,9 +179,7 @@ public class MainActivity extends Activity {
 			}catch(Exception e){}  
 			
 			if(len > 0){
-				stopWatch.start();
 				byte[] yuv = converter.Convert(buf);
-				stopWatch.stop("color converted");
 				easyEncoder.offerEncoder(yuv);
 			}else{
 				break;
