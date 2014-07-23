@@ -31,13 +31,13 @@ public class MainActivity extends Activity {
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		//		setContentView(R.layout.activity_main);
-		//
-		//		if (savedInstanceState == null) {
-		//			getFragmentManager().beginTransaction()
-		//					.add(R.id.container, new PlaceholderFragment()).commit();
-		//		}
-		//		
+//				setContentView(R.layout.activity_main);
+//		
+//				if (savedInstanceState == null) {
+//					getFragmentManager().beginTransaction()
+//							.add(R.id.container, new PlaceholderFragment()).commit();
+//				}
+//				
 		mGLView = new MyGLSurfaceView(this);
 		setContentView(mGLView);
 	} 
@@ -169,12 +169,12 @@ public class MainActivity extends Activity {
 			try {
 				
 				len = inputStream.read(buf);
-//				((MyGLSurfaceView)mGLView).updatePicture(buf);
-//				runOnUiThread(new Runnable(){
-//					public void run() {
-//						mGLView.requestRender();
-//					}
-//				});
+				((MyGLSurfaceView)mGLView).updatePicture(buf);
+				runOnUiThread(new Runnable(){
+					public void run() {
+						mGLView.requestRender();
+					}
+				});
 				
 			}catch(Exception e){}  
 			

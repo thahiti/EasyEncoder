@@ -129,15 +129,6 @@ public class RGBRender implements GLSurfaceView.Renderer
 
 	public void onSurfaceCreated(GL10 glUnused, EGLConfig config)
 	{
-		// Set the background clear color to black.
-		//		GLES20.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-
-		// Use culling to remove back faces.
-		//		GLES20.glEnable(GLES20.GL_CULL_FACE);
-
-		// Enable depth testing
-		//		GLES20.glEnable(GLES20.GL_DEPTH_TEST);		
-		//Vertex Shader.
 		String vShaderStr =
 				"attribute vec4 a_position;   				\n"
 						+ "uniform mat4 u_MVPMatrix;    				\n"
@@ -230,7 +221,8 @@ public class RGBRender implements GLSurfaceView.Renderer
 		GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
 		GLES20.glBindTexture( GLES20.GL_TEXTURE_2D, mTextureId );
 		GLES20.glUniform1i ( mSamplerLoc, 0 );
-		GLES20.glTexImage2D ( GLES20.GL_TEXTURE_2D, 0, GLES20.GL_RGBA, mTextureWidth, mTextureHeight, 0, GLES20.GL_RGBA, GLES20.GL_UNSIGNED_BYTE, pixelBuffer );
+//		GLES20.glTexImage2D ( GLES20.GL_TEXTURE_2D, 0, GLES20.GL_RGBA, mTextureWidth, mTextureHeight, 0, GLES20.GL_RGBA, GLES20.GL_UNSIGNED_BYTE, pixelBuffer );
+		GLES20.glTexSubImage2D(GLES20.GL_TEXTURE_2D, 0, 0, 0, mSourceWidth, mSourceHeight, GLES20.GL_RGBA, GLES20.GL_UNSIGNED_BYTE, pixelBuffer);
 	}
 
 	public void onDrawFrame(GL10 glUnused)
@@ -255,8 +247,8 @@ public class RGBRender implements GLSurfaceView.Renderer
 				GLES20.glEnableVertexAttribArray ( mTexCoordLoc );
 				GLES20.glUniform4fv(mColorHandle, 1, color, 0);
 				// Bind the texture
-				//		GLES20.glActiveTexture ( GLES20.GL_TEXTURE0 );
-				//		GLES20.glBindTexture ( GLES20.GL_TEXTURE_2D, mTextureId );
+				GLES20.glActiveTexture ( GLES20.GL_TEXTURE0 );
+				GLES20.glBindTexture ( GLES20.GL_TEXTURE_2D, mTextureId );
 				// Set the sampler texture unit to 0
 
 
@@ -283,12 +275,7 @@ public class RGBRender implements GLSurfaceView.Renderer
 	public void updatePicture(byte[] rgbFrame){
 		synchronized (lock) {
 			if(textureCreated){
-				pixelBuffer.clear();
-				for(int i=0; i<mSourceHeight; ++i){
-					pixelBuffer.put(rgbFrame, i*mSourceWidth*4, mSourceWidth*4);
-					pixelBuffer.position(i*mTextureWidth*4);
-				}
-				pixelBuffer.position(0);  
+				pixelBuffer = ByteBuffer.wrap(rgbFrame);
 			}
 
 		}
