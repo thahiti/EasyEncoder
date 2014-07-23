@@ -1,20 +1,18 @@
 LOCAL_PATH := $(call my-dir)
-FFMPEG := ../../ffmpeg
-X264 := ../../x264
 
 include $(CLEAR_VARS)
 LOCAL_MODULE            := libavutil
-LOCAL_SRC_FILES         := $(FFMPEG)/output/libavutil-52.so
+LOCAL_SRC_FILES         := ffmpeg/libavutil/libavutil-52.so
 include $(PREBUILT_SHARED_LIBRARY)
 
 include $(CLEAR_VARS)
 LOCAL_MODULE            := libswscale
-LOCAL_SRC_FILES         := $(FFMPEG)/output/libswscale-2.so
+LOCAL_SRC_FILES         := ffmpeg/libswscale/libswscale-2.so
 include $(PREBUILT_SHARED_LIBRARY)
 
 include $(CLEAR_VARS)
 LOCAL_MODULE            := libx264
-LOCAL_SRC_FILES         := $(X264)/output/libx264.so
+LOCAL_SRC_FILES         := x264/libx264.so
 include $(PREBUILT_SHARED_LIBRARY)
 	
 include $(CLEAR_VARS)
@@ -22,7 +20,7 @@ include $(CLEAR_VARS)
 LOCAL_SRC_FILES += NativeColorConverter.cpp\
 				   FScaler.cpp
 
-LOCAL_C_INCLUDES := $(LOCAL_PATH)/$(FFMPEG)
+LOCAL_C_INCLUDES := $(LOCAL_PATH)/ffmpeg
 
 LOCAL_SHARED_LIBRARIES := libavutil\
 						  libswscale\
