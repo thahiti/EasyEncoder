@@ -39,7 +39,8 @@ public class MyGLSurfaceView extends GLSurfaceView {
         setRenderer(mRenderer);
 
         // Render the view only when there is a change in the drawing data 
-        setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY);
+//        setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY);
+        setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
     }
     
 	public void setSourceSize(int w, int h){

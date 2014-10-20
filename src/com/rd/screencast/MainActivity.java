@@ -11,6 +11,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Looper;
@@ -26,17 +27,17 @@ public class MainActivity extends Activity {
 	private final String TAG = "Encoding tester";
 	private GLSurfaceView mGLView;
 
-	private int width = 1280;
-	private int height = 720;
+	private String avcDumpFilePath = "/dump.h264";
+	private String rgbInputFilePath = "/maroon5_small_short.rgb";
+	private int width = 320;
+	private int height = 240;
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		mGLView = new MyGLSurfaceView(this);
 		setContentView(mGLView);
-		
-		
-	} 
+	}  
 
 	public boolean onCreateOptionsMenu(Menu menu) {
 
@@ -99,7 +100,7 @@ public class MainActivity extends Activity {
 	private HandlerThread videoFrameHandlerThread;
 	private VideoFrameHandler videoFrameHandler;
 
-	FileOutputStream outputStream = null;
+	FileOutputStream outputStream;
 	DataInputStream inputStream;
 	int frameSize;
 	byte[] buf;
@@ -109,17 +110,23 @@ public class MainActivity extends Activity {
 		frameSize = width*height*4;
 		buf = new byte[frameSize];
 		int len=0;
-		
 		if(null == outputStream){
 			try {
-				outputStream = new FileOutputStream(new File("/mnt/sdcard/dump.h264"));
-				inputStream = new DataInputStream(new FileInputStream("/mnt/sdcard/Maroon.rgb"));
+				avcDumpFilePath = Environment.getExternalStorageDirectory().getPath() + avcDumpFilePath;
+				rgbInputFilePath = Environment.getExternalStorageDirectory().getPath() + rgbInputFilePath;
+				
+				Log.i(TAG, String.format("encoding start for input: %s output: %s", rgbInputFilePath, avcDumpFilePath));
+				
+				outputStream = new FileOutputStream(new File(avcDumpFilePath));
+				inputStream = new DataInputStream(new FileInputStream(rgbInputFilePath));
 
 			} catch (FileNotFoundException e) {
-				e.printStackTrace(); 
+				e.printStackTrace();
+				Log.i(TAG, "File not found exit test");
+				return;
 			}
 		}
-
+  
 //		EasyRGBEncoder easyEncoder = new EasyRGBEncoder(width,height,60,2);
 //		easyEncoder.setEncodedFrameListener(new EasyRGBEncoder.EncodedFrameListener() { 
 //			public void writeFrame(byte[] data){
@@ -139,8 +146,6 @@ public class MainActivity extends Activity {
 //		});
 		
 		RGB2YUVColorConverter converter = new RGB2YUVColorConverter(width,  height);
-		
-		
 		EasyYUVEncoder easyEncoder = new EasyYUVEncoder(width,height,60,2);
 		easyEncoder.setEncodedFrameListener(new EasyYUVEncoder.EncodedFrameListener() {
 			public void writeFrame(byte[] data){ 
@@ -160,10 +165,8 @@ public class MainActivity extends Activity {
 		});
 		
 		((MyGLSurfaceView)mGLView).setSourceSize(width, height);
-		StopWatch stopWatch = new StopWatch();
 		while(true){ 
 			try {
-				
 				len = inputStream.read(buf);
 				((MyGLSurfaceView)mGLView).updatePicture(buf);
 				runOnUiThread(new Runnable(){

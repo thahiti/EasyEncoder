@@ -12,18 +12,18 @@
 FScaler * fscaler;
 int src_size;
 int dst_size;
-FILE * dumpfile;
+//FILE * dumpfile;
 JNIEXPORT jint JNICALL Java_com_rd_screencast_RGB2YUVColorConverter_nativeInit(JNIEnv *env, jobject thiz, jint src_width, jint src_height, jint dst_width, jint dst_height){
     fscaler = new FScaler(src_width, src_height, AV_PIX_FMT_RGBA, dst_width, dst_height, AV_PIX_FMT_NV12);
     src_size = src_width*src_height*4;
     dst_size = dst_width*dst_height*3/2;
 
-    dumpfile = fopen("/mnt/sdcard/dump.bin", "wb");
+    //dumpfile = fopen("/mnt/sdcard/dump.bin", "wb");
     return 0;
 }
 
 JNIEXPORT jint JNICALL Java_com_rd_screencast_RGB2YUVColorConverter_nativeDeinit(JNIEnv *env, jobject thiz){
-    fclose(dumpfile);
+    //fclose(dumpfile);
     delete fscaler;
     return 0;
 }
@@ -40,7 +40,7 @@ JNIEXPORT jint JNICALL Java_com_rd_screencast_RGB2YUVColorConverter_nativeConver
     LOGD("convert done");
 
     memcpy(nativeYUV, buf, dst_size);
-    fwrite(nativeYUV, 1, dst_size, dumpfile);
+    //fwrite(nativeYUV, 1, dst_size, dumpfile);
 
     (env)->ReleaseByteArrayElements(rgb, nativeRGB ,JNI_ABORT);
     (env)->ReleaseByteArrayElements(yuv, nativeYUV ,JNI_ABORT);
