@@ -314,7 +314,7 @@ public class RGBRender implements GLSurfaceView.Renderer
 			}
 		}
 	}
-	
+
 	private int decideTextureSize(){
 		int size = MIN_TEXTURE_SIZE;
 		int biggerNum = (mSourceWidth > mSourceHeight) ? mSourceWidth : mSourceHeight;
